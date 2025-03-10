@@ -64,8 +64,10 @@ site.ru/rss_tgiv.xml - RSS лента в формате telegram instant view п
         <operation action="after">
             <searchcode><![CDATA[showRow( $lang['opt_sys_nrss'], $lang['opt_sys_nrssd'], "<input dir=\"auto\" type=\"text\" class=\"form-control\" style=\"max-width:150px; text-align: center;\"  name='save_con[rss_number]' value=\"{$config['rss_number']}\">" );]]></searchcode>
             <replacecode><![CDATA[// опция для instant view
-            	
-showRow( "Количество экспортируемых новостей в Telegram", "Укажите количество экспортируемых новостей в RSS поток Telegram instant view<br>Адрес лента <a href=\"/rss_tgiv.xml\" target=\"_blank\">http://yoursite.com/rss_tgiv.xml</a>", "<input dir=\"auto\" type=\"text\" class=\"form-control\" style=\"max-width:150px; text-align: center;\"  name='save_con[tg_instant_view_rss_number]' value=\"{$config['tg_instant_view_rss_number']}\">" );]]></replacecode>
+
+showRow( "Количество экспортируемых новостей в Telegram", "Укажите количество экспортируемых новостей в RSS поток Telegram instant view<br>Адрес лента <a href=\"/rss_tgiv.xml\" target=\"_blank\">http://yoursite.com/rss_tgiv.xml</a>", "<input dir=\"auto\" type=\"text\" class=\"form-control\" style=\"max-width:150px; text-align: center;\"  name='save_con[tg_instant_view_rss_number]' value=\"{$config['tg_instant_view_rss_number']}\">" );
+showRow( "Название канала в Telegram", "Укажите Telegram канал, например <a href=\"https://t.me/tcsecms\" target=\"_blank\">@tcsecms</a> для формирования автора на обложке", "<input dir=\"auto\" type=\"text\" class=\"form-control\" style=\"max-width:150px; text-align: center;\"  name='save_con[tg_instant_view_chanel]' value=\"{$config['tg_instant_view_chanel']}\">" );
+]]></replacecode>
         </operation>
     </file>
 

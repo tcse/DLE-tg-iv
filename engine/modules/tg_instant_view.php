@@ -65,6 +65,7 @@ if (strpos($current_url, 'tg-iv,') !== false) {
                 $tpl->set('{date}', date('c', strtotime($row['date'])));
                 $tpl->set('{full-story}', $row['full_story']);
                 $tpl->set('{home-url}', $config['http_home_url']);
+                $tpl->set('{tg-chanel}', $config['tg_instant_view_chanel']);
                 
                 // Add category information to template
                 $tpl->set('{category-name}', $category_name);

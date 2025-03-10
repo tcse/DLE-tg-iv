@@ -41,7 +41,8 @@
                 <b>{ category-alt-name }</b> - {category-alt-name}<br>
                 <b>{ og-site-name }</b> - {og-site-name}<br>
                 <b>{ og-description }</b> - {og-description}<br>
-                <b>{ home-url }</b> - {home-url}
+                <b>{ home-url }</b> - {home-url}<br>
+                <b>{ tg-chanel }</b> - {tg-chanel}
             </p> *}
             
         </article>
