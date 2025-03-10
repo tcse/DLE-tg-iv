@@ -66,6 +66,7 @@ if (strpos($current_url, 'tg-iv,') !== false) {
                 $tpl->set('{full-story}', $row['full_story']);
                 $tpl->set('{home-url}', $config['http_home_url']);
                 $tpl->set('{tg-chanel}', $config['tg_instant_view_chanel']);
+                $tpl->set('{tg-cover-url}', $config['tg_instant_view_cover']);
                 
                 // Add category information to template
                 $tpl->set('{category-name}', $category_name);

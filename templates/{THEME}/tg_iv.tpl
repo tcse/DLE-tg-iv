@@ -20,7 +20,7 @@
 
             <!-- если первый элемент в статье - это рисунок, он будет установлен/использован как обложка статьи -->
             <figure>
-                <img src="https://tcse-cms.com/templates/2022-reen/images/art/product03.jpg" />
+                <img src="{cover-url}" />
                 <figcaption>{category-name}</figcaption>
             </figure>
 
@@ -42,7 +42,8 @@
                 <b>{ og-site-name }</b> - {og-site-name}<br>
                 <b>{ og-description }</b> - {og-description}<br>
                 <b>{ home-url }</b> - {home-url}<br>
-                <b>{ tg-chanel }</b> - {tg-chanel}
+                <b>{ tg-chanel }</b> - {tg-chanel}<br>
+                <b>{ cover-url }</b> - {cover-url}<br>
             </p> *}
             
         </article>

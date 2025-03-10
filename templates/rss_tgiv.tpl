@@ -5,8 +5,8 @@
 	<pubDate>{rssdate}</pubDate>
     <modDate>{rssdate}</modDate>
 	<author>{rssauthor}</author>
-	<![CDATA[{full-story}]]>
-	<content:encoded>
+	<![CDATA[{short-story}]]>
+	{* <content:encoded>
 		<![CDATA[
 		<!doctype html>
 		<html lang="ru" prefix="op: http://media.facebook.com/op#">
@@ -30,5 +30,5 @@
 		  </body>
 		</html>
 		]]>
-	</content:encoded>
+	</content:encoded> *}
 </item>

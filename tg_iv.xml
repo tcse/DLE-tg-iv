@@ -66,7 +66,10 @@ site.ru/rss_tgiv.xml - RSS лента в формате telegram instant view п
             <replacecode><![CDATA[// опция для instant view
 
 showRow( "Количество экспортируемых новостей в Telegram", "Укажите количество экспортируемых новостей в RSS поток Telegram instant view<br>Адрес лента <a href=\"/rss_tgiv.xml\" target=\"_blank\">http://yoursite.com/rss_tgiv.xml</a>", "<input dir=\"auto\" type=\"text\" class=\"form-control\" style=\"max-width:150px; text-align: center;\"  name='save_con[tg_instant_view_rss_number]' value=\"{$config['tg_instant_view_rss_number']}\">" );
-showRow( "Название канала в Telegram", "Укажите Telegram канал, например <a href=\"https://t.me/tcsecms\" target=\"_blank\">@tcsecms</a> для формирования автора на обложке", "<input dir=\"auto\" type=\"text\" class=\"form-control\" style=\"max-width:150px; text-align: center;\"  name='save_con[tg_instant_view_chanel]' value=\"{$config['tg_instant_view_chanel']}\">" );
+showRow( "Название канала в Telegram", "Укажите Telegram канал, например <a href=\"https://t.me/tcsecms\" target=\"_blank\">@tcsecms</a> для формирования автора на обложке Telegram instant view", "<input dir=\"auto\" type=\"text\" class=\"form-control\" style=\"max-width:150px; text-align: center;\"  name='save_con[tg_instant_view_chanel]' value=\"{$config['tg_instant_view_chanel']}\">" );
+showRow( "Ссылка на обложку для Telegram instant view", "Укажите ссылку для формирования обложки при просмотре Telegram instant view<br>
+Хотя в документации Telegram Instant View нет конкретных рекомендаций по размерам обложки, можно использовать общие рекомендации для изображений в веб-страницах. Для обложки статьи часто используются изображения с соотношением сторон примерно 16:9 или 1.78:1, что позволяет им хорошо отображаться на экранах компьютеров и мобильных устройств.<br>
+", "<input dir=\"auto\" type=\"text\" class=\"form-control\" style=\"max-width:150px; text-align: center;\"  name='save_con[tg_instant_view_cover]' value=\"{$config['tg_instant_view_cover']}\">" );
 ]]></replacecode>
         </operation>
     </file>
