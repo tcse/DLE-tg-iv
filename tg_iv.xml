@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dleplugin>
+	<name>Telegram Instant View by TCSE</name>
+	<description>Добавляет шаблон полной новости для Telegram Instant View
+по адресу /tg-iv,{news-id}-.html</description>
+	<icon></icon>
+	<version>0.3.4</version>
+	<dleversion>18</dleversion>
+	<versioncompare>greater</versioncompare>
+	<upgradeurl></upgradeurl>
+	<filedelete>0</filedelete>
+	<needplugin></needplugin>
+	<mnotice>1</mnotice>
+	<mysqlinstall><![CDATA[]]></mysqlinstall>
+	<mysqlupgrade><![CDATA[]]></mysqlupgrade>
+	<mysqlenable><![CDATA[]]></mysqlenable>
+	<mysqldisable><![CDATA[]]></mysqldisable>
+	<mysqldelete><![CDATA[]]></mysqldelete>
+	<phpinstall><![CDATA[]]></phpinstall>
+	<phpupgrade><![CDATA[]]></phpupgrade>
+	<phpenable><![CDATA[]]></phpenable>
+	<phpdisable><![CDATA[]]></phpdisable>
+	<phpdelete><![CDATA[]]></phpdelete>
+	<notice><![CDATA[В шаблон полной новости fullstory.tpl добавить в нужное место ссылку на Telegram Instant View
+		Например
+		<pre><code>&lt;a href="/tg-iv,{news-id}-.html" target="_blank">Telegram Instant View&lt;/a></code></pre>
+
+В файле шаблона Telegram Instant View в папке {THEME}/tg_iv.tpl обязательно оставить метатег
+<code>
+&lt;meta property="tg:site_verification" content="g7j8/rPFXfhyrq5q0QQV7EsYWv4=">
+</code>
+так как именно он позволяет без каких либо проверок на стороне Telegram делать вашим страницам IV версию.
+
+Установка количества новостей экспортируемых в Telegram Instant View задается в разделе [b]Настройки скрипта[/b] -> [b]Настройки системы[/b] вкладка RSS вписать необходимое количество.
+
+Для получения красивого адреса rss ленты для экспорта в Telegram необходимо добавить правила редиректов.
+
+В /.htaccess после строки
+
+<code>RewriteRule ^rss.xml$ index.php?mod=rss [L]</code>
+
+вставить
+
+<code>RewriteRule ^rss_tgiv.xml$ index.php?mod=tg_instant_view_rss [L]</code>
+  
+Всё. Теперь у нас есть две ленты RSS на сайте:
+
+site.ru/rss.xml - Стандартная лента движка;
+site.ru/rss_tgiv.xml - RSS лента в формате telegram instant view полным текстом новостей.
+		]]></notice>
+	<file name="engine/init.php">
+        <operation action="after">
+            <searchcode><![CDATA[} elseif(isset($_GET['mod']) AND $_GET['mod'] == "rss") {
+	include_once (DLEPlugins::Check(ENGINE_DIR . '/rss.php'));
+	die();
+}]]></searchcode>
+            <replacecode><![CDATA[elseif($_GET['mod'] == "tg_instant_view_rss") {
+    include_once (DLEPlugins::Check(ENGINE_DIR . '/modules/tg_instant_view_rss.php'));
+    die();
+  }]]></replacecode>
+        </operation>
+    </file>
+    <file name="engine/inc/options.php">
+        <operation action="after">
+            <searchcode><![CDATA[showRow( $lang['opt_sys_nrss'], $lang['opt_sys_nrssd'], "<input dir=\"auto\" type=\"text\" class=\"form-control\" style=\"max-width:150px; text-align: center;\"  name='save_con[rss_number]' value=\"{$config['rss_number']}\">" );]]></searchcode>
+            <replacecode><![CDATA[// опция для instant view
+            	
+showRow( "Количество экспортируемых новостей в Telegram", "Укажите количество экспортируемых новостей в RSS поток Telegram instant view<br>Адрес лента <a href=\"/rss_tgiv.xml\" target=\"_blank\">http://yoursite.com/rss_tgiv.xml</a>", "<input dir=\"auto\" type=\"text\" class=\"form-control\" style=\"max-width:150px; text-align: center;\"  name='save_con[tg_instant_view_rss_number]' value=\"{$config['tg_instant_view_rss_number']}\">" );]]></replacecode>
+        </operation>
+    </file>
+
+	<file name="engine/engine.php">
+		<operation action="before">
+			<searchcode><![CDATA[switch ( $do ) {]]></searchcode>
+			<replacecode><![CDATA[include_once ENGINE_DIR . '/modules/tg_instant_view.php';]]></replacecode>
+			<enabled>1</enabled>
+		</operation>
+	</file>
+</dleplugin>
