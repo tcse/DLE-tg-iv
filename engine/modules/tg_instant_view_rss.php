@@ -54,7 +54,9 @@ elseif( $_GET['do'] == 'cat' ) $config['home_title'] = stripslashes( $cat_info[$
 $rss_content = <<<XML
 <?xml version="1.0" encoding="{$config['charset']}"?>
 <rss version="2.0"
-xmlns:content="http://purl.org/rss/1.0/modules/content/">
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
 <channel>
 <title>{$config['home_title']}</title>
 <link>{$config['http_home_url']}</link>
@@ -116,7 +118,9 @@ XML;
         $rss_content = <<<XML
 <?xml version="1.0" encoding="{$config['charset']}"?>
 <rss version="2.0"
-xmlns:content="http://purl.org/rss/1.0/modules/content/">
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
 <channel>
 <title>{$config['home_title']}</title>
 <link>{$config['http_home_url']}</link>
