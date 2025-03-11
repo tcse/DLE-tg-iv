@@ -28,8 +28,8 @@ if (strpos($current_url, 'tg-iv,') !== false) {
         $news_id = intval($matches[1]);
         
         if ($news_id) {
-            // Load the news content with author information
-            $row = $db->super_query("SELECT p.id, p.title, p.autor, p.date, p.full_story, p.short_story, p.category, p.alt_name, p.descr 
+            // Load the news content with author information and xfields
+            $row = $db->super_query("SELECT p.id, p.title, p.autor, p.date, p.full_story, p.short_story, p.category, p.alt_name, p.descr, p.xfields, p.tags 
                                     FROM " . PREFIX . "_post p 
                                     WHERE id = '{$news_id}'");
             
@@ -61,12 +61,17 @@ if (strpos($current_url, 'tg-iv,') !== false) {
                 // Process template variables for the article
                 $tpl->set('{title}', $row['title']);
                 $tpl->set('{autor}', $row['autor']);
-                $tpl->set('{alt-name}', $row['alt_name']);
+                $tpl->set('{alt_name}', $row['alt_name']);
                 $tpl->set('{date}', date('c', strtotime($row['date'])));
                 $tpl->set('{full-story}', $row['full_story']);
-                $tpl->set('{home-url}', $config['http_home_url']);
-                $tpl->set('{tg-chanel}', $config['tg_instant_view_chanel']);
-                $tpl->set('{tg-cover-url}', $config['tg_instant_view_cover']);
+                $tpl->set('{short-story}', $row['short_story']);
+                
+                // Process tags
+                if (!empty($row['tags'])) {
+                    $tpl->set('{tags}', $row['tags']);
+                } else {
+                    $tpl->set('{tags}', '');
+                }
                 
                 // Add category information to template
                 $tpl->set('{category-name}', $category_name);
@@ -115,6 +120,45 @@ if (strpos($current_url, 'tg-iv,') !== false) {
                 // For article:author, we already have {autor} but let's add a specific OG tag
                 $tpl->set('{og-author}', $row['autor']);
                 
+                // Process xfields - similar to how it's done in show.custom.php
+                if (!empty($row['xfields'])) {
+                    $xfields = xfieldsload();
+                    $row['xfields'] = stripslashes($row['xfields']);
+                    $xfieldsdata = xfieldsdataload($row['xfields']);
+                    
+                    foreach ($xfields as $value) {
+                        $preg_safe_name = preg_quote($value[0], "'");
+                        
+                        if (empty($xfieldsdata[$value[0]])) {
+                            $tpl->copy_template = preg_replace("'\\[xfgiven_{$preg_safe_name}\\](.*?)\\[/xfgiven_{$preg_safe_name}\\]'is", "", $tpl->copy_template);
+                            $tpl->copy_template = str_replace("[xfnotgiven_{$value[0]}]", "", $tpl->copy_template);
+                            $tpl->copy_template = str_replace("[/xfnotgiven_{$value[0]}]", "", $tpl->copy_template);
+                        } else {
+                            $tpl->copy_template = preg_replace("'\\[xfnotgiven_{$preg_safe_name}\\](.*?)\\[/xfnotgiven_{$preg_safe_name}\\]'is", "", $tpl->copy_template);
+                            $tpl->copy_template = str_replace("[xfgiven_{$value[0]}]", "", $tpl->copy_template);
+                            $tpl->copy_template = str_replace("[/xfgiven_{$value[0]}]", "", $tpl->copy_template);
+                        }
+                        
+                        $tpl->set("[xfvalue_{$value[0]}]", $xfieldsdata[$value[0]]);
+                    }
+                } else {
+                    // If no xfields, remove all xfield related tags
+                    $tpl->copy_template = preg_replace("'\\[xfgiven_(.*?)\\](.*?)\\[/xfgiven_(.*?)\\]'is", "", $tpl->copy_template);
+                    $tpl->copy_template = preg_replace("'\\[xfnotgiven_(.*?)\\](.*?)\\[/xfnotgiven_(.*?)\\]'is", "", $tpl->copy_template);
+                    $tpl->copy_template = preg_replace("'\\[xfvalue_(.*?)\\]'i", "", $tpl->copy_template);
+                }
+                
+                // Process banner tags
+                if (function_exists('banners')) {
+                    $tpl->copy_template = banners($tpl->copy_template);
+                }
+                
+                // Process other fullstory.tpl tags
+                $tpl->set('{views}', $row['news_read']);
+                $tpl->set('{comments-num}', $row['comm_num']);
+                
+                // Add more fullstory.tpl tags as needed
+                
                 // Compile the template
                 $tpl->compile('content');
                 
@@ -126,4 +170,83 @@ if (strpos($current_url, 'tg-iv,') !== false) {
     }
 }
 
+// Add a custom tag for the Telegram IV link with alt_name
+if ($dle_module == 'showfull') {
+    // We're in a full story view, so we can add our custom tag
+    
+    // Function to generate the Telegram IV link with alt_name
+    function generate_tg_iv_link_with_alt_name() {
+        global $config, $row;
+        
+        // Make sure we have the news ID and alt_name
+        if (!isset($row['id']) || !$row['id'] || !isset($row['alt_name']) || !$row['alt_name']) {
+            return '#';
+        }
+        
+        // Create the tg-iv URL with alt_name
+        $tg_iv_url = 'tg-iv,' . $row['id'] . '-' . $row['alt_name'] . '.html';
+        
+        // Add category if available
+        if (isset($row['category']) && $row['category']) {
+            $tg_iv_url = $row['category'] . '/' . $tg_iv_url;
+        }
+        
+        return $config['http_home_url'] . $tg_iv_url;
+    }
+    
+    // Replace the tag in the template
+    if (isset($tpl) && is_object($tpl) && isset($tpl->copy_template)) {
+        $tpl->copy_template = str_replace('{tg-iv-link-with-alt}', generate_tg_iv_link_with_alt_name(), $tpl->copy_template);
+    }
+}
+
+// Helper function to load xfields configuration
+if (!function_exists('xfieldsload')) {
+    function xfieldsload() {
+        global $config;
+        
+        $path = ENGINE_DIR . '/data/xfields.txt';
+        
+        if (!file_exists($path)) {
+            return array();
+        }
+        
+        $filecontents = file_get_contents($path);
+        
+        if (!$filecontents) {
+            return array();
+        }
+        
+        $fields = explode("\r\n", $filecontents);
+        $xfields = array();
+        
+        foreach ($fields as $field) {
+            if (trim($field) != '') {
+                $xfield = explode("|", $field);
+                $xfields[] = $xfield;
+            }
+        }
+        
+        return $xfields;
+    }
+}
+
+// Helper function to load xfields data
+if (!function_exists('xfieldsdataload')) {
+    function xfieldsdataload($xfieldsdata) {
+        if (!$xfieldsdata) {
+            return array();
+        }
+        
+        $data = array();
+        $xfieldsdata = explode("||", $xfieldsdata);
+        
+        foreach ($xfieldsdata as $xfielddata) {
+            list($xfielddataname, $xfielddatavalue) = explode("|", $xfielddata);
+            $data[$xfielddataname] = $xfielddatavalue;
+        }
+        
+        return $data;
+    }
+}
 ?>

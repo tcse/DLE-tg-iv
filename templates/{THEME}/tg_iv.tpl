@@ -6,7 +6,7 @@
     <meta property="og:description" content="{og-description}">
     <meta property="article:author" content="{autor}">
     <meta property="og:image" content="{image-1}">
-    <meta property="telegram:channel" content="@tcsecms">
+    <meta property="telegram:channel" content="{tg-chanel}">
     <meta property="tg:site_verification" content="g7j8/rPFXfhyrq5q0QQV7EsYWv4=">
     <meta property="article:published_time" content="{date}">
 </head>
@@ -20,7 +20,7 @@
 
             <!-- если первый элемент в статье - это рисунок, он будет установлен/использован как обложка статьи -->
             <figure>
-                <img src="{cover-url}" />
+                <img src="{tg-cover-url}" />
                 <figcaption>{category-name}</figcaption>
             </figure>
 
@@ -43,7 +43,7 @@
                 <b>{ og-description }</b> - {og-description}<br>
                 <b>{ home-url }</b> - {home-url}<br>
                 <b>{ tg-chanel }</b> - {tg-chanel}<br>
-                <b>{ cover-url }</b> - {cover-url}<br>
+                <b>{ tg-cover-url }</b> - {tg-cover-url}<br>
             </p> *}
             
         </article>
