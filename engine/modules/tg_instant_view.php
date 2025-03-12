@@ -65,6 +65,9 @@ if (strpos($current_url, 'tg-iv,') !== false) {
                 $tpl->set('{date}', date('c', strtotime($row['date'])));
                 $tpl->set('{full-story}', $row['full_story']);
                 $tpl->set('{short-story}', $row['short_story']);
+                $tpl->set('{home-url}', $config['http_home_url']);
+                $tpl->set('{tg-chanel}', $config['tg_instant_view_chanel']);
+                $tpl->set('{tg-cover-url}', $config['tg_instant_view_cover']);
                 
                 // Process tags
                 if (!empty($row['tags'])) {
