@@ -9,6 +9,137 @@
     <meta property="telegram:channel" content="{tg-chanel}">
     <meta property="tg:site_verification" content="g7j8/rPFXfhyrq5q0QQV7EsYWv4=">
     <meta property="article:published_time" content="{date}">
+    [desktop]
+    <!-- стили для настольных систем -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Основные настройки */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* Заголовки */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: bold;
+            margin: 1em 0 0.5em;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 2em; }
+        h2 { font-size: 1.8em; }
+        h3 { font-size: 1.6em; }
+        h4 { font-size: 1.4em; }
+        h5 { font-size: 1.2em; }
+        h6 { font-size: 1em; }
+
+        /* Параграфы */
+        p {
+            margin: 1em 0;
+        }
+
+        /* Ссылки */
+        a {
+            color: #0084B4;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Изображения */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1em auto;
+        }
+
+        /* Блоки цитат */
+        blockquote {
+            border-left: 4px solid #ccc;
+            padding: 0 1em;
+            margin: 1em 0;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Списки */
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 1.5em;
+        }
+
+        li {
+            margin: 0.5em 0;
+        }
+
+        /* Код и предварительно форматированный текст */
+        pre {
+            background-color: #f4f4f4;
+            padding: 1em;
+            overflow-x: auto;
+            border-radius: 4px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        /* Таблицы */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 0.5em;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        /* Горизонтальные линии */
+        hr {
+            border: 0;
+            border-top: 1px solid #ddd;
+            margin: 2em 0;
+        }
+
+        /* Футер */
+        footer {
+            margin-top: 2em;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+
+        /* Медиа запросы для адаптивности */
+        @media (max-width: 600px) {
+            body {
+                padding: 0 1em;
+            }
+            
+            h1 { font-size: 1.8em; }
+            h2 { font-size: 1.6em; }
+            h3 { font-size: 1.4em; }
+        }
+    </style>
+    [/desktop]
 </head>
 
 <body>
