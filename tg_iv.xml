@@ -2,9 +2,9 @@
 <dleplugin>
 	<name>Telegram Instant View by TCSE</name>
 	<description>Добавляет шаблон полной новости для Telegram Instant View
-по адресу /tg-iv,{news-id}-.html</description>
-	<icon></icon>
-	<version>0.3.4</version>
+по адресу /tg-iv,{news-id}-.html  Подробнее о тегах шаблона читайте на сайте разработчика https://tcse-cms.com/</description>
+	<icon>engine/skins/images/tgiv.png</icon>
+	<version>1.0.0</version>
 	<dleversion>18</dleversion>
 	<versioncompare>greater</versioncompare>
 	<upgradeurl></upgradeurl>
@@ -31,7 +31,7 @@
 </code>
 так как именно он позволяет без каких либо проверок на стороне Telegram делать вашим страницам IV версию.
 
-Установка количества новостей экспортируемых в Telegram Instant View задается в разделе [b]Настройки скрипта[/b] -> [b]Настройки системы[/b] вкладка RSS вписать необходимое количество.
+Установка количества новостей экспортируемых в Telegram Instant View задается в разделе <b>Настройки скрипта -> Настройки системы</b> вкладка RSS вписать необходимое количество.
 
 Для получения красивого адреса rss ленты для экспорта в Telegram необходимо добавить правила редиректов.
 
@@ -46,7 +46,7 @@
 Всё. Теперь у нас есть две ленты RSS на сайте:
 
 site.ru/rss.xml - Стандартная лента движка;
-site.ru/rss_tgiv.xml - RSS лента в формате telegram instant view полным текстом новостей.
+site.ru/rss_tgiv.xml - RSS лента в формате telegram instant view с полным текстом новостей.
 		]]></notice>
 	<file name="engine/init.php">
         <operation action="after">
