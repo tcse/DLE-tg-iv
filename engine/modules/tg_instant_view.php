@@ -4,7 +4,7 @@
  Telegram Instant View Plugin for DLE 18
 -----------------------------------------------------
  https://tcse-cms.com/
------------------------------------------------------
+=====================================================
  File: engine/modules/tg_instant_view.php
 -----------------------------------------------------
  Use: the telegram instant_view fullstory
@@ -55,7 +55,7 @@ if (strpos($current_url, 'tg-iv,') !== false) {
                     }
                 }
                 
-                // Load the tg_iv.tpl template
+                // Load the tg-iv.tpl template
                 $tpl->load_template('tg_iv.tpl');
                 
                 // Process template variables for the article
@@ -66,8 +66,6 @@ if (strpos($current_url, 'tg-iv,') !== false) {
                 $tpl->set('{full-story}', $row['full_story']);
                 $tpl->set('{short-story}', $row['short_story']);
                 $tpl->set('{home-url}', $config['http_home_url']);
-                $tpl->set('{tg-chanel}', $config['tg_instant_view_chanel']);
-                $tpl->set('{tg-cover-url}', $config['tg_instant_view_cover']);
                 
                 // Process tags
                 if (!empty($row['tags'])) {
@@ -95,12 +93,51 @@ if (strpos($current_url, 'tg-iv,') !== false) {
                 
                 $tpl->set('{full-link}', $full_link);
                 
-                // Process image - using DLE's default no-image path
-                if (preg_match('/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/i', $row['full_story'], $img_match)) {
-                    $tpl->set('{image-1}', $img_match[1]);
+                // Process images with conditional tags
+                $images = array();
+                
+                // Extract images from the full story
+                preg_match_all('/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/i', $row['full_story'], $img_matches);
+                
+                if (!empty($img_matches[1])) {
+                    $images = $img_matches[1];
+                }
+                
+                // Process image tags with conditional pairs
+                for ($i = 1; $i <= 10; $i++) {
+                    if (isset($images[$i-1])) {
+                        $tpl->set('{image-' . $i . '}', $images[$i-1]);
+                        $tpl->set_block("'\\[image-{$i}\\](.*?)\\[/image-{$i}\\]'si", "\\1");
+                        $tpl->set_block("'\\[not-image-{$i}\\](.*?)\\[/not-image-{$i}\\]'si", "");
+                    } else {
+                        $tpl->set('{image-' . $i . '}', $config['http_home_url'] . 'templates/' . $config['skin'] . '/dleimages/no_image.jpg');
+                        $tpl->set_block("'\\[image-{$i}\\](.*?)\\[/image-{$i}\\]'si", "");
+                        $tpl->set_block("'\\[not-image-{$i}\\](.*?)\\[/not-image-{$i}\\]'si", "\\1");
+                    }
+                }
+                
+                // Process Telegram channel tag with conditional pairs
+                $tg_channel = '@tcsecms'; // You can make this configurable
+                if (!empty($tg_channel)) {
+                    $tpl->set('{tg-chanel}', $config['tg_instant_view_chanel']);
+                    $tpl->set_block("'\\[tg-chanel\\](.*?)\\[/tg-chanel\\]'si", "\\1");
+                    $tpl->set_block("'\\[not-tg-chanel\\](.*?)\\[/not-tg-chanel\\]'si", "");
                 } else {
-                    // Use DLE's default no-image path
-                    $tpl->set('{image-1}', $config['http_home_url'] . 'templates/' . $config['skin'] . '/dleimages/no_image.jpg');
+                    $tpl->set('{tg-chanel}', '');
+                    $tpl->set_block("'\\[tg-chanel\\](.*?)\\[/tg-chanel\\]'si", "");
+                    $tpl->set_block("'\\[not-tg-chanel\\](.*?)\\[/not-tg-chanel\\]'si", "\\1");
+                }
+                
+                // Process Telegram cover URL tag with conditional pairs
+                $tg_cover_url = '/engine/skins/images/placeholder.svg'; // You can set this to a default cover image or make it configurable
+                if (!empty($tg_cover_url)) {
+                    $tpl->set('{tg-cover-url}', $config['tg_instant_view_cover']);
+                    $tpl->set_block("'\\[tg-cover-url\\](.*?)\\[/tg-cover-url\\]'si", "\\1");
+                    $tpl->set_block("'\\[not-tg-cover-url\\](.*?)\\[/not-tg-cover-url\\]'si", "");
+                } else {
+                    $tpl->set('{tg-cover-url}', '');
+                    $tpl->set_block("'\\[tg-cover-url\\](.*?)\\[/tg-cover-url\\]'si", "");
+                    $tpl->set_block("'\\[not-tg-cover-url\\](.*?)\\[/not-tg-cover-url\\]'si", "\\1");
                 }
                 
                 // Add Open Graph meta tag variables using DLE configuration
@@ -159,8 +196,6 @@ if (strpos($current_url, 'tg-iv,') !== false) {
                 // Process other fullstory.tpl tags
                 $tpl->set('{views}', $row['news_read']);
                 $tpl->set('{comments-num}', $row['comm_num']);
-                
-                // Add more fullstory.tpl tags as needed
                 
                 // Compile the template
                 $tpl->compile('content');
