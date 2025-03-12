@@ -55,7 +55,7 @@ if (strpos($current_url, 'tg-iv,') !== false) {
                     }
                 }
                 
-                // Load the tg-iv.tpl template
+                // Load the {THEME}/tg_iv.tpl template
                 $tpl->load_template('tg_iv.tpl');
                 
                 // Process template variables for the article
