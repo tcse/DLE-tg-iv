@@ -61,7 +61,7 @@ if (strpos($current_url, 'tg-iv,') !== false) {
                 // Process template variables for the article
                 $tpl->set('{title}', $row['title']);
                 $tpl->set('{autor}', $row['autor']);
-                $tpl->set('{alt_name}', $row['alt_name']);
+                $tpl->set('{alt-name}', $row['alt_name']);
                 $tpl->set('{date}', date('c', strtotime($row['date'])));
                 $tpl->set('{full-story}', $row['full_story']);
                 $tpl->set('{short-story}', $row['short_story']);

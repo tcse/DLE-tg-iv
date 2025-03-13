@@ -150,10 +150,12 @@
                 https://instantview.telegram.org/docs#supported-types (HTML counterpart and allowed children columns) -->
 
             <!-- если первый элемент в статье - это рисунок, он будет установлен/использован как обложка статьи -->
+            [tg-cover-url]
             <figure>
                 <img src="{tg-cover-url}" />
                 <figcaption>{category-name}</figcaption>
             </figure>
+            [/tg-cover-url]
 
             {full-story}
 
