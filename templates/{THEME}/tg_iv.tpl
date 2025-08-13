@@ -140,6 +140,19 @@
         }
     </style>
     [/desktop]
+{* Чистый JS-редирект с Instant View версии на основную страницу *}
+<script>
+// Проверяем, открыто ли в Telegram (встроенный браузер)
+function isInTelegram() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    return /TelegramBot|Telegram/i.test(ua) && /Mobile|iP(hone|od)|Android|BlackBerry/.test(ua);
+}
+
+// Если НЕ в Telegram — делаем редирект
+if (!isInTelegram()) {
+    window.location.replace("{full-link}");
+}
+</script>
 </head>
 
 <body>
